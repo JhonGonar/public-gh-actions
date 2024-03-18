@@ -23,6 +23,8 @@ jobs:
     environment: production
     runs-on: ubuntu-latest
     steps: 
+    - name: Intro
+      run: echo "I'm in PROD $AWS_REGION"
     - name: Checkout code
       uses: actions/checkout@v4.1.1
     - name: Deploy
