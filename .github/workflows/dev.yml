@@ -1,0 +1,38 @@
+name: 'CI on Push any branch'
+
+on: 
+  push:
+    branches-ignore:
+      - main
+    paths-ignore:
+    - '**/*.Dockerfile'
+
+jobs:
+  conditional-commit:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Skip step for documentation changes
+      if: "contains(github.event.head_commit.message, '[skip ci]')"
+      run: echo "This step is skipped if the commit message contains '[skip ci]'."
+  fail-job:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+    - name: Intentionally fail this job
+      run: exit 1
+  cleanup:
+    needs: fail-job
+    if: success()
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Running cleanup because build job failed."
+  example:
+    runs-on: ubuntu-latest
+    environment: development
+    steps:
+      - name: Set flag based on secret
+        id: set_flag
+        run: echo "DEPLOYMENT=${{ env.AWS_REGION }}" >> $GITHUB_ENV
+      - name: Deploy to Production
+        #if: env.DEPLOYMENT == 'us-east-2'
+        run: echo $DEPLOYMENT
