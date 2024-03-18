@@ -22,7 +22,7 @@ jobs:
       run: exit 1
   cleanup:
     needs: fail-job
-    if: failure()
+    if: success()
     runs-on: ubuntu-latest
     steps:
       - run: echo "Running cleanup because build job failed."
@@ -34,5 +34,5 @@ jobs:
         id: set_flag
         run: echo "DEPLOYMENT=${{ env.AWS_REGION }}" >> $GITHUB_ENV
       - name: Deploy to Production
-        if: env.DEPLOYMENT == 'us-east-2'
-        run: echo "Deploying to Ohio"
+        #if: env.DEPLOYMENT == 'us-east-2'
+        run: echo $DEPLOYMENT
