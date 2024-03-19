@@ -1,9 +1,9 @@
 name: 'CI on Push and PULL Request merge'
 
 on: 
-  push:
-    branches:
-      - main
+  #push:
+    #branches:
+     # - main
   pull_request:
     types: [closed]
     branches:
@@ -11,6 +11,7 @@ on:
 
 jobs:
   build-and-test:
+    if: github.event.pull_request.merged == true ##
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -18,7 +19,8 @@ jobs:
       - name: Build and Test
         run: echo "Running build and test steps"
   deploy: 
-    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.merged)
+    #if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.merged)
+    if: needs.build-and-test.result == 'success'
     needs: build-and-test
     environment: production
     runs-on: ubuntu-latest
