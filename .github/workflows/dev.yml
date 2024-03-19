@@ -22,7 +22,7 @@ jobs:
       run: exit 1
   cleanup:
     needs: fail-job
-    if: success()
+    if: failure()
     runs-on: ubuntu-latest
     steps:
       - run: echo "Running cleanup because build job failed."
@@ -52,6 +52,6 @@ jobs:
     needs: producer
     steps:
       - env:
-          OUTPUT1: ${{needs.job1.outputs.output1}}
-          OUTPUT2: ${{needs.job1.outputs.output2}}
+          OUTPUT1: ${{needs.producer.outputs.output1}}
+          OUTPUT2: ${{needs.producer.outputs.output2}}
         run: echo "$OUTPUT1 $OUTPUT2"
