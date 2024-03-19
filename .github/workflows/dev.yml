@@ -1,4 +1,4 @@
-name: 'CI on Push any branch'
+name: 'CI on Push any branch #'
 
 on: 
   push:
