@@ -16,7 +16,7 @@ jobs:
       run: echo "This step is skipped if the commit message contains '[skip ci]'."
   fail-job:
     runs-on: ubuntu-latest
-
+    continue-on-error: true
     steps:
     - name: Intentionally fail this job
       run: exit 1
