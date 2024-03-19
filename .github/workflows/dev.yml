@@ -32,13 +32,10 @@ jobs:
     steps:
       - name: Set flag based on secret
         id: set_flag
-        run: echo ${{ env.AWS_REGION }}
-      #- name: Deploy to Production
-      #  if: env.DEPLOYMENT == 'us-east-2'
-       # run: echo $DEPLOYMENT
-        #env:
-         # OUTPUT1: ${{needs.producer.outputs.output1}}
-          #OUTPUT2: ${{needs.producer.outputs.output2}}
+        run: echo ${{ vars.AWS_REGION }}
+      - name: Deploy to Production
+        if: ${{ vars.AWS_REGION == 'us-east-2' }}
+        run: echo "Deployed from Ohio!"
   producer:
     runs-on: ubuntu-latest
     # Map a step output to a job output
